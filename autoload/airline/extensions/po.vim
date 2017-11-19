@@ -62,6 +62,11 @@ endfunction
 
 function! airline#extensions#po#stats()
   if exists('b:airline_po_stats') && !empty(b:airline_po_stats)
+    let b:airline_po_stats = substitute(b:airline_po_stats, ' \(message\|translation\)s*\.*', '', 'g')
+    let b:airline_po_stats = substitute(b:airline_po_stats, ' translated', 'T', 'g')
+    let b:airline_po_stats = substitute(b:airline_po_stats, ' fuzzy', 'F', 'g')
+    let b:airline_po_stats = substitute(b:airline_po_stats, ' untranslated', 'U', 'g')
+    let b:airline_po_stats = substitute(b:airline_po_stats, ', ', '/', 'g')
     return b:airline_po_stats
   endif
 
@@ -80,7 +85,12 @@ function! airline#extensions#po#stats()
       return ''
     endif
     try
-      let b:airline_po_stats = split(airline_po_stats, '\n')[0]
+      let b:airline_po_stats = '['. split(airline_po_stats, '\n')[0]. ']'
+      let b:airline_po_stats = substitute(b:airline_po_stats, ' \(message\|translation\)s*\.*', '', 'g')
+      let b:airline_po_stats = substitute(b:airline_po_stats, ' translated', 'T', 'g')
+      let b:airline_po_stats = substitute(b:airline_po_stats, ' fuzzy', 'F', 'g')
+      let b:airline_po_stats = substitute(b:airline_po_stats, ' untranslated', 'U', 'g')
+      let b:airline_po_stats = substitute(b:airline_po_stats, ', ', '/', 'g')
     catch
       let b:airline_po_stats = ''
     endtry
